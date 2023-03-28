@@ -15,7 +15,9 @@ struct array {
     int (*search)(array* array, void* element);
     void (*delete)(array* array, void* element, int position); //position value optional
     void (*sort)(array* array);
-    void* contents[];
+    void** contents;
 };
 
-array** create(int size);
+array* Array(int size);
+void quicksort(array* array, int low, int high);
+int partition(array* array, int low, int high);

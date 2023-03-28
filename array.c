@@ -66,6 +66,52 @@ void delete (array* array, void* element, int position){
     }
 }
 void sort(array* array){
-    //sorts array in place
+    //sorts array in place using quicksort
+    quicksort(array,0,array->content_size);
+}
 
+void quicksort(array* array, int low, int high){
+    if(low < high){
+        int pivot = partition(array, low, high);
+        quicksort(array, low, pivot-1);
+        quicksort(array,pivot, high);
+    }
+}
+
+int partition(array* array, int low, int high){
+    int pivotval = (int) array->contents[low];
+    int left = low+1;
+    int right = high;
+    int boolean = 0;
+    void* temp;
+    while(!boolean){
+        while (left <= right && (int) array->contents[left] <= pivotval){
+            left = left+1;
+        }
+        while ((int) array->contents[right] >= pivotval && right>= left){
+            right = right -1;
+        }
+        if (right < left){
+            boolean = 1;
+        } else {
+            temp = array->contents[left];
+            array->contents[left] = array->contents[right];
+            array->contents[right] = temp;
+        };
+    temp = array->contents[low];
+    array->contents[low] = array->contents[high];
+    array->contents[high] = temp;
+    }
+}
+
+array* Array(int size){
+    array* new_array = malloc(sizeof(array));
+    new_array->contents = malloc(sizeof(void*) * size );
+    new_array->content_size = 0;
+    new_array->access = access;
+    new_array->insert = insert;
+    new_array->search = search;
+    new_array->delete = delete;
+    new_array->sort = sort;
+    return new_array;
 }
